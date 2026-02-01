@@ -26,10 +26,10 @@ const { title, description, pubDate, updatedDate } = Astro.props;
 
       @media (prefers-color-scheme: dark) {
         :root {
-          --bg: black;
+          --bg: #1a1a1a;
           --fg: whitesmoke;
           --muted: color-mix(in oklab, var(--fg), transparent 40%);
-          --card: dimgray;
+          --card: #2a2a2a;
           --ring: color-mix(in oklab, var(--fg), transparent 70%);
           --accent: deepskyblue;
         }
@@ -108,7 +108,7 @@ const { title, description, pubDate, updatedDate } = Astro.props;
     <Header />
     <main>
       <article>
-        <div class="prose">
+        <div class="prose md:prose-lg lg:prose-xl dark:prose-invert">
           <div class="title">
             <div class="date">
               <FormattedDate date={pubDate} />
