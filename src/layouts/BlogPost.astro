@@ -1,86 +1,132 @@
 ---
-import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
-import Header from '../components/Header.astro';
+import type { CollectionEntry } from "astro:content";
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import Header from "../components/Header.astro";
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<"blog">["data"];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate } = Astro.props;
 ---
 
 <html lang="en">
-	<head>
-		<BaseHead title={title} description={description} />
-		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
-		</style>
-	</head>
+  <head>
+    <BaseHead title={title} description={description} />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: whitesmoke;
+        --fg: black;
+        --muted: color-mix(in oklab, var(--fg), transparent 45%);
+        --card: white;
+        --ring: color-mix(in oklab, var(--fg), transparent 80%);
+        --accent: dodgerblue;
+      }
 
-	<body>
-		<Header />
-		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
-						<h1>{title}</h1>
-						<hr />
-					</div>
-					<slot />
-				</div>
-			</article>
-		</main>
-		<Footer />
-	</body>
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: black;
+          --fg: whitesmoke;
+          --muted: color-mix(in oklab, var(--fg), transparent 40%);
+          --card: dimgray;
+          --ring: color-mix(in oklab, var(--fg), transparent 70%);
+          --accent: deepskyblue;
+        }
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+      }
+
+      main {
+        padding: 2rem 1.25rem 3rem;
+      }
+
+      .prose {
+        max-width: 80ch;
+        margin-inline: auto;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        padding: 0;
+      }
+
+      @media (min-width: 48rem) {
+        .prose {
+          border-radius: 0.75rem;
+          padding: clamp(1.5rem, 2.5vw + 1rem, 3rem);
+        }
+      }
+
+      h1 {
+        margin: 0.5rem 0 0.75rem;
+        font-size: clamp(1.8rem, 2.8vw + 1rem, 2.6rem);
+      }
+
+      hr {
+        border: 0;
+        border-top: 1px solid var(--ring);
+        margin: 1rem 0 1.5rem;
+      }
+
+      .date,
+      .last-updated-on {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      :global(aside) {
+        margin: 1.25rem 0;
+        padding: 0.05rem 1rem;
+        border-left: 3px solid var(--accent);
+        border-radius: 0.5rem;
+        background: color-mix(in oklab, var(--accent), transparent 90%);
+        font-size: 0.95rem;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 0.5rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <Header />
+    <main>
+      <article>
+        <div class="prose">
+          <div class="title">
+            <div class="date">
+              <FormattedDate date={pubDate} />
+              {
+                updatedDate && (
+                  <div class="last-updated-on">
+                    Last updated on <FormattedDate date={updatedDate} />
+                  </div>
+                )
+              }
+            </div>
+            <h1>{title}</h1>
+            <hr />
+          </div>
+          <slot />
+        </div>
+      </article>
+    </main>
+    <Footer />
+  </body>
 </html>
