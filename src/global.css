@@ -11,8 +11,8 @@
     "Fira Code", ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
     Consolas, "DejaVu Sans Mono", monospace;
 
-  --font-size-text: 1rem;
-  --font-size-code: 0.9rem;
+  --font-size-text: 1.1rem;
+  --font-size-code: 1rem;
   --border-radius-code: 0;
 
   --text: var(--stone-12);
