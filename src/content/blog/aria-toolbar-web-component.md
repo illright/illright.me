@@ -32,19 +32,23 @@ Give the first button `tabindex="0"` (default value) and the rest of the buttons
 
 </aside>
 
+Here's what the Spectrum docs say about it:
+
 > The `RovingTabindexController` is a [reactive controller](https://lit.dev/docs/composition/controllers/) that implements the [roving tabindex pattern](https://www.w3.org/TR/wai-aria-practices-1.2/#kbd_roving_tabindex).
 >
-> https://opensource.adobe.com/spectrum-web-components/tools/roving-tab-index/
+> <cite>https://opensource.adobe.com/spectrum-web-components/tools/roving-tab-index/</cite>
+
+And a reactive controller is…
 
 > A reactive controller is an object that can hook into a component's [reactive update cycle](https://lit.dev/docs/components/lifecycle/#reactive-update-cycle). Controllers can bundle state and behavior related to a feature, making it reusable across multiple component definitions.
 >
-> https://lit.dev/docs/composition/controllers/
+> <cite>https://lit.dev/docs/composition/controllers/</cite>
 
 Okay, so a controller is a concept from Lit, a way to pack up and reuse logic across Web Components, kind of like custom hooks in React. This is amazing! The only drawback is that using these controllers requires a base class that is aware of how they work. In Lit, their base `LitElement` is controller-capable by default, but there's also a slimmer version, `ReactiveElement`, that doesn't contain as much Lit-related logic. Since I'm planning to build a Web Component that doesn't use the Shadow DOM at all (people have been referring to them as [HTML web components](https://adactio.com/journal/20618)), I don't need most of Lit.
 
 To use it in a Web Component, we just need to construct a `RovingTabindexController` object and pass `this` as the first argument:
 
-```js
+```js {5-7}
 import { RovingTabindexController } from "@spectrum-web-components/reactive-controllers";
 import { ReactiveElement } from "lit";
 
@@ -70,7 +74,7 @@ The most important option that we need to pass in is `elements` — a callback t
 
 So basically, the `elements` callback should just get all buttons inside itself. Here's how we can do that:
 
-```js
+```js {6}
 import { RovingTabindexController } from "@spectrum-web-components/reactive-controllers";
 import { ReactiveElement } from "lit";
 

@@ -1,7 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
-import BlogPost from "../../layouts/BlogPost.astro";
-import "../../styles/global.css";
+import { Icon } from "astro-icon/components";
+import SitePage from "../../shared/layouts/SitePage.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -14,8 +14,46 @@ type Props = CollectionEntry<"blog">;
 
 const post = Astro.props;
 const { Content } = await render(post);
+
+const dateFormatter = new Intl.DateTimeFormat("en-UK", {
+  dateStyle: "medium",
+});
 ---
 
-<BlogPost {...post.data}>
+<SitePage
+  title={`${post.data.title} — Lev's Web things`}
+  description={post.data.description}
+>
+  <a href="/"><Icon name="solar:exit-linear" /> Back to all posts</a>
+  <hgroup>
+    <h1>{post.data.title}</h1>
+    <p>
+      Published on <time datetime={post.data.pubDate.toISOString()}
+        >{dateFormatter.format(post.data.pubDate)}</time
+      >
+    </p>
+  </hgroup>
   <Content />
-</BlogPost>
+</SitePage>
+
+<style>
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25em;
+
+    &:visited {
+      color: var(--link);
+    }
+  }
+
+  hgroup {
+    margin-block-start: 1em;
+    display: grid;
+    gap: 1em;
+
+    & > * {
+      margin-block: 0;
+    }
+  }
+</style>

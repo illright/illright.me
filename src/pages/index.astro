@@ -1,135 +1,81 @@
 ---
-import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import BaseHead from "../components/BaseHead.astro";
-import Footer from "../components/Footer.astro";
-import FormattedDate from "../components/FormattedDate.astro";
-import Header from "../components/Header.astro";
-import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
-import "../styles/global.css";
+import SitePage from "../shared/layouts/SitePage.astro";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+const dateFormatter = new Intl.DateTimeFormat("en-UK", {
+  dateStyle: "medium",
+});
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <style>
-      :root {
-        color-scheme: light dark;
-        --bg: whitesmoke;
-        --fg: black;
-        --muted: color-mix(in oklab, var(--fg), transparent 45%);
-        --card: white;
-        --ring: color-mix(in oklab, var(--fg), transparent 80%);
-        --accent: dodgerblue;
+<SitePage
+  title="Lev's Web things"
+  description="Personal blog of Lev Cheliadinov with writings about the web"
+>
+  <h1>Blog posts</h1>
+  <ul>
+    {
+      posts.map((post) => {
+        const dateISO = post.data.pubDate.toISOString();
+        const dateHuman = dateFormatter.format(post.data.pubDate);
+
+        return (
+          <li>
+            <a href={`/blog/${post.id}`}>{post.data.title}</a>{" "}
+            <time datetime={dateISO}>{dateHuman}</time>
+          </li>
+        );
+      })
+    }
+  </ul>
+</SitePage>
+
+<style>
+  h1 {
+    margin-block: 0;
+  }
+
+  time {
+    font-size: 0.8em;
+
+    @media (width < 600px) {
+      color: var(--text-subtle);
+
+      &::before {
+        content: "(";
       }
 
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: #1a1a1a;
-          --fg: whitesmoke;
-          --muted: color-mix(in oklab, var(--fg), transparent 40%);
-          --card: #2a2a2a;
-          --ring: color-mix(in oklab, var(--fg), transparent 70%);
-          --accent: deepskyblue;
-        }
+      &::after {
+        content: ")";
+      }
+    }
+  }
+
+  @media (width >= 600px) {
+    ul {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5em;
+      padding: 0;
+    }
+
+    li {
+      grid-column: 1 / 3;
+      display: grid;
+      grid-template-columns: subgrid;
+      align-items: baseline;
+
+      time {
+        grid-column-start: 1;
+        grid-row-start: 1;
       }
 
-      body {
-        margin: 0;
-        background: var(--bg);
-        color: var(--fg);
+      a {
+        grid-column-start: 2;
       }
-
-      main {
-        max-width: 72rem;
-        margin: 0 auto;
-        padding: 2rem 1.25rem 3rem;
-      }
-
-      ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        display: grid;
-        gap: 1.25rem;
-      }
-
-      li a {
-        display: grid;
-        gap: 0.5rem;
-        padding: 1rem;
-        border: 1px solid var(--ring);
-        border-radius: 0.75rem;
-        background: var(--card);
-        text-decoration: none;
-        color: inherit;
-        transition:
-          transform 120ms ease,
-          border-color 120ms ease;
-      }
-
-      li a:hover {
-        transform: translateY(-2px);
-        border-color: color-mix(in oklab, var(--accent), var(--ring) 60%);
-      }
-
-      img {
-        width: 100%;
-        height: auto;
-        border-radius: 0.5rem;
-      }
-
-      .title {
-        margin: 0.25rem 0 0;
-        font-size: 1.1rem;
-      }
-
-      .date {
-        margin: 0;
-        color: var(--muted);
-        font-size: 0.9rem;
-      }
-
-      @media (min-width: 48rem) {
-        ul {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <Header />
-    <main>
-      <section>
-        <ul>
-          {
-            posts.map((post) => (
-              <li>
-                <a href={`/blog/${post.id}/`}>
-                  {post.data.heroImage && (
-                    <Image
-                      width={720}
-                      height={360}
-                      src={post.data.heroImage}
-                      alt=""
-                    />
-                  )}
-                  <h4 class="title">{post.data.title}</h4>
-                  <p class="date">
-                    <FormattedDate date={post.data.pubDate} />
-                  </p>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-    </main>
-    <Footer />
-  </body>
-</html>
+    }
+  }
+</style>

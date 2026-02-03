@@ -1,0 +1,105 @@
+@import "open-props/colors.min.css";
+
+:root {
+  /* https://github.com/system-fonts/modern-font-stacks#transitional */
+  font-family: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
+  line-height: 1.9;
+  scrollbar-gutter: stable;
+
+  /* https://github.com/system-fonts/modern-font-stacks#monospace-code, with my personal preference added first. */
+  --font-family-code:
+    "Fira Code", ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
+    Consolas, "DejaVu Sans Mono", monospace;
+
+  --font-size-text: 1rem;
+  --font-size-code: 0.9rem;
+  --border-radius-code: 0;
+
+  --text: var(--stone-12);
+  --text-subtle: var(--stone-10);
+  --surface-1: var(--brown-0);
+  --surface-2: var(--stone-0);
+  --link: var(--blue-10);
+  --link-visited: var(--purple-10);
+
+  @media (prefers-color-scheme: dark) {
+    --text: var(--stone-2);
+    --text-subtle: var(--stone-4);
+    --surface-1: var(--stone-11);
+    --surface-2: var(--stone-12);
+    --link: var(--blue-3);
+    --link-visited: var(--purple-2);
+  }
+
+  @media (width >= 600px) {
+    --font-size-text: 1.25rem;
+    --font-size-code: 1.1rem;
+    --border-radius-code: 0.3em;
+  }
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.4;
+  margin-block-start: 1.5em;
+}
+
+:is(h2, h3, h4)[id] a:last-child {
+  display: inline-flex;
+  vertical-align: sub;
+  margin-inline: 0.5ch;
+  color: var(--link);
+
+  &:not(:hover) {
+    opacity: 0.6;
+  }
+}
+
+a {
+  color: var(--link);
+
+  &:visited {
+    color: var(--link-visited);
+  }
+}
+
+code {
+  font-family: var(--font-family-code);
+  font-size: var(--font-size-code);
+}
+
+p {
+  margin-block: 1.2em;
+}
+
+aside {
+  border: 0 solid var(--indigo-3);
+  background: var(--surface-2);
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+
+  @media (width >= 600px) {
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-radius: 0.3em;
+  }
+}
+
+blockquote {
+  margin: 0;
+  border: 0 solid var(--indigo-3);
+  background: color-mix(in oklab, var(--indigo-3) 10%, transparent 90%);
+  padding-left: 0.8em;
+  border-left-width: 3px;
+  font-style: italic;
+
+  cite {
+    word-wrap: break-word;
+  }
+}
