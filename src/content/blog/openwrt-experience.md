@@ -64,7 +64,11 @@ By the way, the author of that post uses Firefox, so they can offer some help wi
 
 <aside>
 
-Hey, is that the OpenWrt logo in the SSH console? But I didn't flash OpenWrt yet! Did Zyxel just jack OpenWrt's firmware and rebrand it as their own, in violation of the GPL-2.0 license?
+Hey, is that the OpenWrt logo in the SSH console? But I didn't flash OpenWrt yet! ~~Did Zyxel just jack OpenWrt's firmware and rebrand it as their own, in violation of the GPL-2.0 license?~~
+
+**Update**: No, they didn't violate the license. There is a [support page on the Zyxel forum](https://support.zyxel.eu/hc/en-us/articles/360017067100-Zyxel-Open-Source-Code-MyZyxelPortal-How-to-Access-Zyxel-Open-Source-Code-for-Programmers-GPL) that acknowledges the dependency on GPL-licensed components and offers a means to request source code. Someone on the OpenWrt forum also reuploaded the source code, so people wouldn't have to go through the request form.
+
+My apologies to the Zyxel team for assuming bad intentions.
 
 </aside>
 
@@ -86,7 +90,7 @@ opkg install /tmp/kmod-mtd-rw_6.6.73.2021.02.28~e8776739-r1_aarch64_cortex-a53.i
 
 And it failed with this error:
 
-```bash
+```
 openwrt packages for kmod-mtd-rw found, but incompatible with the architectures configured
 ```
 
