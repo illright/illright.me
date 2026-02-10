@@ -114,13 +114,18 @@ const { title, description } = Astro.props;
     }
   }
 
-  :global(.expressive-code) {
+  :global(.expressive-code):not(:is(aside > *)) {
     margin-inline: calc(-1 * (1.2rem + var(--ec-brdWd)));
   }
 
   :global(aside) {
     margin-inline: -1.2rem;
     padding-inline: 1.2rem;
+  }
+
+  :global(img) {
+    width: 100%;
+    height: auto;
   }
 
   @media (width >= 600px) {
