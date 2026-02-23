@@ -117,6 +117,32 @@ const { title, description } = Astro.props;
     margin-inline: calc(-1 * (1.2rem + var(--ec-brdWd)));
   }
 
+  :global(figure:has(.expressive-code)) {
+    margin: 0;
+  }
+
+  :global(.expressive-code:has(+ figcaption) :is(figure, pre)) {
+    border-radius: var(--header-border-radius) var(--header-border-radius) 0 0;
+    border-bottom-width: 0;
+  }
+
+  :global(.expressive-code + figcaption) {
+    background: var(--ec-frm-edBg);
+    margin-inline: calc(-1 * (1.2rem + var(--ec-brdWd)));
+    padding: 0.5em var(--ec-codePadInl);
+    border-radius: 0 0 calc(var(--ec-brdRad) + var(--ec-brdWd))
+      calc(var(--ec-brdRad) + var(--ec-brdWd));
+    box-shadow: var(--ec-frm-frameBoxShdCssVal);
+    position: relative;
+    border: var(--ec-brdWd) solid var(--ec-brdCol);
+    border-top-style: dotted;
+    text-wrap-style: pretty;
+  }
+
+  :global(.expressive-code + figcaption > p) {
+    margin: 0;
+  }
+
   :global(aside) {
     margin-inline: -1.2rem;
     padding-inline: 1.2rem;
